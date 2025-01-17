@@ -1,0 +1,7 @@
+
+transformers
+torch
+llmcompressor
+bitsandbytes
+accelerate
+huggingface_hub
