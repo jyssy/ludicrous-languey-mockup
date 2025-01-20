@@ -1,0 +1,7 @@
+# working files to exclude
+.env
+cache/
+models/
+quantize-llm/output
+quantize-llm/sparse-logs/
+quantize-llm/venv/
