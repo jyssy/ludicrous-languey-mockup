@@ -1,0 +1,60 @@
+
+version: "3.8"
+services:
+    init:
+        build: .
+        volumes:
+            - ./models:/app/models
+            - ./cache:/app/cache
+        environment:
+            - HF_TOKEN=${HF_TOKEN}
+        deploy:
+            resources:
+                limits:
+                    memory: 100G
+                reservations:
+                    memory: 90G
+
+    vllm:
+        image: drikster80/vllm-gh200-openai
+        ipc: host
+        volumes:
+            - ./cache/huggingface:/root/.cache/huggingface
+            - ./models:/root/models
+        command: >
+            --model /root/models/Llama-3.3-70B-Instruct-FP8-Dynamic
+            --served-model-name Llama-3.3-70B-Instruct-FP8-Dynamic
+            --max-model-len 32768
+            --cpu-only
+            --num-scheduler-steps 4
+        deploy:
+            resources:
+                limits:
+                    memory: 100G
+        depends_on:
+            - init
+
+    webui:
+        image: ghcr.io/open-webui/open-webui:main
+        ports:
+            - "8080:8080"
+        volumes:
+            - open-webui:/app/backend/data
+        environment:
+            - WEBUI_URL=http://localhost:8080
+            - DEFAULT_USER_ROLE=user
+            - ENABLE_SIGNUP=False
+            - DEFAULT_MODELS=Llama-3.3-70B-Instruct-FP8-Dynamic
+            - ENABLE_OLLAMA_API=False
+            - OPENAI_API_BASE_URL=http://vllm:8000/v1
+            - OPENAI_API_KEY=Empty
+        depends_on:
+            - vllm
+        deploy:
+            resources:
+                limits:
+                    memory: 4G
+
+volumes:
+    open-webui:
+
