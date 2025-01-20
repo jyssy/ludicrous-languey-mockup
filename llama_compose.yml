@@ -3,6 +3,7 @@ version: "3.8"
 services:
     init:
         build: .
+        restart: always
         volumes:
             - ./models:/app/models
             - ./cache:/app/cache
@@ -18,6 +19,7 @@ services:
     vllm:
         image: drikster80/vllm-gh200-openai
         ipc: host
+        restart: always
         volumes:
             - ./cache/huggingface:/root/.cache/huggingface
             - ./models:/root/models
