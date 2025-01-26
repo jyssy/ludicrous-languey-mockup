@@ -52,7 +52,7 @@ services:
             - WEBUI_AUTH=False
             - DEFAULT_MODELS=Llama-3.3-70B-Instruct-FP8-Dynamic
             - ADMIN_EMAIL=jelambe@iu.edu
-            - ENABLE_OLLAMA_API=False
+            - ENABLE_OLLAMA_API=TRUE
             - OPENAI_API_BASE_URL=http://vllm:8000/v1
             - OPENAI_API_KEY=Empty
         depends_on:
