@@ -51,10 +51,12 @@ services:
             - ENABLE_SIGNUP=False
             - WEBUI_AUTH=False
             - DEFAULT_MODELS=Llama-3.3-70B-Instruct-FP8-Dynamic
+            - MODEL_TEMPLATE_NAME=llama2
             - ADMIN_EMAIL=jelambe@iu.edu
             - ENABLE_OLLAMA_API=TRUE
             - OPENAI_API_BASE_URL=http://vllm:8000/v1
-            - OPENAI_API_KEY=Empty
+            - OPENAI_API_KEY=sky-yojaf-dumnmykey
+            - LOG_LEVEL=debug
         depends_on:
             - vllm
         deploy:
